@@ -13,184 +13,75 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-        <!-- Ya i know shouldn't write this here... Lol -->
-        <script>
-            // Loads the Skills to the dropdown
-            $(function() {
-                $.get("http://localhost:3000/skills", 
-                {}, 
-                function(data, status) {
-                    data.forEach(function(skill) {
-                        var skillName = skill.value
-                        $("#skill-filter").append($("<option />").text(skillName).val(skillName));
-                    });
-                });
-            });
+        <script src="main.js"></script>
+        <link rel="stylesheet" href="main.css">
+    </head>
 
-            // Book filter onsubmit
-            $(function() {
-                $("#filter").on("submit",
-                function(event) {
-                    event.preventDefault();
-                    var selectedSkill = $("select[name='skill-filter'] option:selected").text();
-                    $.get("http://localhost:3000/books/skill/" + selectedSkill, 
-                    {},
-                    function(data, status) {
-                        $("#results").empty();
-                        $("#results").append("<h3>Books Selected</h3>");
-                        data.forEach(function(book) {
-                            // build book table
-                            console.log(book.title);
-                            var panel = "<div class='panel panel-default'>";
-                                panel += "<div class='panel-heading'>";
-                                    panel += "<h3>" + book.title + "</h3>";
-                                    panel += "</div>";
-                                panel += "<div class='panel-body'>";
-                                    panel += "<div class='row'>";
-                                        panel += "<div class='col-xs-4'>";
-                                            panel += "<img src='" + book.image_url + "'>";
-                                            panel += "</div>";
-                                        panel += "<div class='col-xs-8'>";
-                                            panel += "<p><strong>Author</strong>: " + book.author_name + "</p>";
-                                            panel += "<p><strong>Author Bio</strong>: " + book.author_bio + "</p>";
-                                            panel += "<p><strong>Book Description</strong>: " + book.desc + "</p>";
-                                            panel += "<p><strong>Price in USD</strong>: " + book.price + "</p>";
-                                            panel += "<p><strong>Rating</strong>: " + book.rating + "</p>";
-                                            panel += "</div>";
-                                        panel += "</div>";
-                                    //</div>
-                                $("#results").append(panel);
-                            });
-                        });
-                    });
-                });
-
-
-                // Rescrape onsubmit
-                $(function() {
-                    $("#rescrape").on("submit", 
-                    function(event) {
-                        event.preventDefault();
-                        toRescrape = $("select[name='rescrape-yn'] option:selected").val();
-                        console.log("rescrape " + toRescrape);
-                        if (toRescrape === "yes") {
-                            $("#rescrape").hide();
-                            $("#spinner").show();
-                            $("#rescrape-success").hide();
-                            $.get("http://localhost:3000/scrape",
-                            {},
-                            function(data) {
-                                console.log(data);
-                                $("#spinner").hide();
-                                $("#rescrape-success").show();
-                            });
-                        }
-                    });
-                });
-            </script>
-
-            <style>
-                .load-bar {
-                    position: relative;
-                    margin-top: 20px;
-                    width: 100%;
-                    height: 6px;
-                    background-color: #fdba2c;
-                }
-                .bar {
-                    content: "";
-                    display: inline;
-                    position: absolute;
-                    width: 0;
-                    height: 100%;
-                    left: 50%;
-                    text-align: center;
-                }
-                .bar:nth-child(1) {
-                    background-color: #da4733;
-                    animation: loading 3s linear infinite;
-                }
-                .bar:nth-child(2) {
-                    background-color: #3b78e7;
-                    animation: loading 3s linear 1s infinite;
-                }
-                .bar:nth-child(3) {
-                    background-color: #fdba2c;
-                    animation: loading 3s linear 2s infinite;
-                }
-                @keyframes loading {
-                    from {left: 50%; width: 0;z-index:100;}
-                    33.3333% {left: 0; width: 100%;z-index: 10;}
-                    to {left: 0; width: 100%;}
-                }
-            </style>
-        </head>
-
-        <body>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h1>Glints Books</h1>
-                        <p>Browse programming books that Glints made me scrape from Amazon! Don't let my effort go to waste! Disclaimer: some data may not be accurate.</p>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="well">
-                            <form id="filter" role="form">
-                                <div class="form-group">
-                                    <label for="skill-filter">Choose the skill:</label>
-                                    <select name="skill-filter" id="skill-filter" class="form-control">
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-success">See Books</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div id="settings" class="col-xs-12">
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#settingsModal">
-                            Settings
-                        </button>
-                    </div>
-                    <div id="results" class="col-xs-12">
-                    </div>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>Glints Books</h1>
+                    <p>Browse programming books that Glints made me scrape from Amazon! Don't let my effort go to waste! Disclaimer: some data may not be accurate.</p>
                 </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="settingsModalLabel">Modal title</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form id="rescrape" role="form">
-                                <label for="rescrape-yn">Rescrape Backend Data (Warning: This takes a long time and the website will be slow until it finishes scraping)</label>
-                                <select id="rescrape-yn" name="rescrape-yn">
-                                    <option value="no">No</option>
-                                    <option value="yes">Yes</option>
+                <div class="col-xs-12">
+                    <div class="well">
+                        <form id="filter" role="form">
+                            <div class="form-group">
+                                <label for="skill-filter">Choose the skill:</label>
+                                <select name="skill-filter" id="skill-filter" class="form-control">
                                 </select>
-                                <button type="submit" class="btn btn-danger">Rescrape</button>
-                            </form>
-                            <div id="spinner" style="display:none">
-                                <p>Rescraping data... Please wait...</p>
-                                <div class="load-bar">
-                                    <div class="bar"></div>
-                                    <div class="bar"></div>
-                                    <div class="bar"></div>
-                                </div>
                             </div>
-                            <div id="rescrape-success" style="display:none;">
-                                <p>Rescrape Success!</p>
-                                <div class="btn btn-success" onclick="window.location.reload()">Refresh</div>
+                            <button type="submit" class="btn btn-success">See Books</button>
+                        </form>
+                    </div>
+                </div>
+                <div id="settings" class="col-xs-12">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#settingsModal">
+                        Settings
+                    </button>
+                </div>
+                <div id="results" class="col-xs-12">
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="settingsModalLabel">Settings</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="rescrape" role="form">
+                            <label for="rescrape-yn">Rescrape Backend Data (Warning: This takes a long time and the website will be slow until it finishes scraping)</label>
+                            <select id="rescrape-yn" name="rescrape-yn">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                            <button type="submit" class="btn btn-danger">Rescrape</button>
+                        </form>
+                        <div id="spinner" style="display:none">
+                            <p>Rescraping data... Please wait...</p>
+                            <div class="load-bar">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button id=close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div id="rescrape-success" style="display:none;">
+                            <p>Rescrape Success!</p>
+                            <div class="btn btn-success" onclick="window.location.reload()">Refresh</div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id=close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
-        </body>
+        </div>
+    </body>
 
-    </html>
+</html>
