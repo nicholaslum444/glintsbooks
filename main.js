@@ -47,6 +47,7 @@ $(function() {
                                         panel += "<p><strong>Book Description</strong>: " + book.desc + "</p>";
                                         panel += "<p><strong>Price in USD</strong>: " + book.price + "</p>";
                                         panel += "<p><strong>Rating</strong>: " + book.rating + "</p>";
+                                        panel += "<p><a href='" + book.url + "' target='_blank'>Visit Amazon page</a></p>";
                                     panel += "</div>";
                                 panel += "</div>";
                             panel += "</div>";
@@ -72,6 +73,7 @@ $(function() {
                             $(".book-price").val(book.price);
                             $(".book-rating").val(book.rating);
                             $(".book-image-url").val(book.image_url);
+                            $(".book-url").val(book.url);
                         });
                     });
 
@@ -124,6 +126,7 @@ $(function() {
             book.price = $(".book-price").val();
             book.rating = $(".book-rating").val();
             book.image_url = $(".book-image-url").val();
+            book.url = $(".book-url").val();
 
             $.ajax({
                 type: "PATCH",
