@@ -23,6 +23,10 @@ $(function() {
                     bookset = data;
                     $("#results").empty();
                     $("#results").append("<h3>Books About \"" + selectedSkill + "\" (" + bookset.length + " books)</h3>");
+                    if (bookset.length === 0) {
+                        $("#results").append("<p>There are no books for this category!</p><p>Click the \"<strong>Settings</strong>\" button and select \"<strong>Rescrape</strong>\" to scrape Amazon for more books!</p>");
+                        return;
+                    }
                     bookset.forEach(function(book) {
                         // build book table
                         var panel = "";
@@ -90,12 +94,13 @@ $(function() {
             if (toRescrape === "yes") {
                 $("#rescrape").hide();
                 $("#spinner").show();
-                $("#rescrape-success").hide();
                 $.get("http://localhost:3000/scrape",
                     {},
                     function(data) {
                         $("#spinner").hide();
-                        $("#rescrape-success").show();
+                        $("#filter").submit();
+                        $("#settingsModal").modal("hide");
+                        $("#rescrape").show();
                     });
             }
         });
