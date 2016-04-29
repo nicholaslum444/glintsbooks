@@ -37,16 +37,14 @@
                     </div>
                 </div>
                 <div id="settings" class="col-xs-12">
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#settingsModal">
-                        Settings
-                    </button>
+                    <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#settingsModal">Settings</button>
                 </div>
                 <div id="results" class="col-xs-12">
                 </div>
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Settings Modal -->
         <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -65,6 +63,7 @@
                         </form>
                         <div id="spinner" style="display:none">
                             <p>Rescraping data... Please wait...</p>
+                            <p>This will take some time. Why not visit <a href="http://nuscomputing.com/">NUS Students' Computing Club</a> in the meantime?</p>
                             <div class="load-bar">
                                 <div class="bar"></div>
                                 <div class="bar"></div>
@@ -82,6 +81,82 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="settingsModalLabel">Edit</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit" role="form">
+                            <div class="form-group">
+                                <input class="form-control book-id" type="hidden" name="id">
+                                <label for="title">Title:</label>
+                                <input class="form-control book-title" name="title" placeholder="Book Title" required>
+                                <label for="author">Author:</label>
+                                <input class="form-control book-author" name="author" placeholder="Author" required>
+                                <label for="author-bio">Author Bio:</label>
+                                <input class="form-control book-author-bio" name="author-bio" placeholder="Author Bio" required>
+                                <label for="description">Description:</label>
+                                <input class="form-control book-description" name="description" placeholder="Book Description" required>
+                                <label for="price">Price in USD:</label>
+                                <input class="form-control book-price" type="number" step="0.01" name="price" placeholder="Book Price" required>
+                                <label for="rating">Rating:</label>
+                                <input class="form-control book-rating" name="rating" placeholder="Book Rating" required>
+                                <label for="image-url">Cover Image Url:</label>
+                                <input class="form-control book-image-url" name="image-url" placeholder="Cover Image Url" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </form>
+                        <div id="edit-spinner" style="display:none">
+                            <p>Making changes... Please wait...</p>
+                            <div class="load-bar">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id=close-edit-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="settingsModalLabel">Settings</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="delete" role="form">
+                            <label for="delete-book-id">Delete this entry?</label>
+                            <input type="hidden" class="form-control delete-book-id" name="delete-book-id" required>
+                            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                        </form>
+                        <div id="delete-spinner" style="display:none">
+                            <p>Deleting entry... Please wait...</p>
+                            <div class="load-bar">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id=close-delete-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </body>
 
 </html>
